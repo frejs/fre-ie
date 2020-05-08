@@ -1,4 +1,4 @@
-import '../polyfil'
+import '..'
 
 import { h, render, useState } from 'fre'
 
