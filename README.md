@@ -1,6 +1,6 @@
 # Fre ie
 
-> fre ie 兼容处理
+> fre ie 兼容处理（IE8+. Not IE7）
 
 ### Run
 
