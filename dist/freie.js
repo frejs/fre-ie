@@ -49,6 +49,24 @@ var freie = (function (exports) {
     return new Date().getTime();
   };
 
+  if (!Array.prototype.forEach) {
+    Array.prototype.forEach = function (fn, scope) {
+      var i, len;
+      for (i = 0, len = this.length; i < len; ++i) {
+        if (i in this) {
+          fn.call(scope, this[i], i, this);
+        }
+      }
+    };
+    Array.isArray = function (toString) {
+      var $ = toString.call([]);
+      return function isArray(object) {
+        return toString.call(object) === $;
+      };
+    }({}.toString);
+    SVGElement = function SVGElement() {};
+  }
+
   var _extends = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
@@ -62,6 +80,44 @@ var freie = (function (exports) {
 
     return target;
   };
+
+  var slicedToArray = function () {
+    function sliceIterator(arr, i) {
+      var _arr = [];
+      var _n = true;
+      var _d = false;
+      var _e = undefined;
+
+      try {
+        for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+          _arr.push(_s.value);
+
+          if (i && _arr.length === i) break;
+        }
+      } catch (err) {
+        _d = true;
+        _e = err;
+      } finally {
+        try {
+          if (!_n && _i["return"]) _i["return"]();
+        } finally {
+          if (_d) throw _e;
+        }
+      }
+
+      return _arr;
+    }
+
+    return function (arr, i) {
+      if (Array.isArray(arr)) {
+        return arr;
+      } else if (Symbol.iterator in Object(arr)) {
+        return sliceIterator(arr, i);
+      } else {
+        throw new TypeError("Invalid attempt to destructure non-iterable instance");
+      }
+    };
+  }();
 
   var toConsumableArray = function (arr) {
     if (Array.isArray(arr)) {
@@ -148,6 +204,47 @@ var freie = (function (exports) {
     var dom = fiber.type === 'text' ? document.createTextNode(fiber.props.nodeValue) : fiber.tag === SVG ? document.createElementNS('http://www.w3.org/2000/svg', fiber.type) : document.createElement(fiber.type);
     updateElement(dom, {}, fiber.props);
     return dom;
+  }
+
+  var cursor = 0;
+
+  function resetCursor() {
+    cursor = 0;
+  }
+
+  function useState(initState) {
+    return useReducer(null, initState);
+  }
+
+  function useReducer(reducer, initState) {
+    var _getHook = getHook(cursor++),
+        _getHook2 = slicedToArray(_getHook, 2),
+        hook = _getHook2[0],
+        current = _getHook2[1];
+
+    var setter = function setter(value) {
+      var newValue = reducer ? reducer(hook[0], value) : isFn(value) ? value(hook[0]) : value;
+      if (newValue !== hook[0]) {
+        hook[0] = newValue;
+        scheduleWork(current);
+      }
+    };
+
+    if (hook.length) {
+      return [hook[0], setter];
+    } else {
+      hook[0] = initState;
+      return [initState, setter];
+    }
+  }
+
+  function getHook(cursor) {
+    var current = getCurrentFiber();
+    var hooks = current.hooks || (current.hooks = { list: [], effect: [], layout: [] });
+    if (cursor >= hooks.list.length) {
+      hooks.list.push([]);
+    }
+    return [hooks.list[cursor], current];
   }
 
   function push(heap, node) {
@@ -286,6 +383,7 @@ var freie = (function (exports) {
   var SVG = 4;
 
   var preCommit = null;
+  var currentFiber = null;
   var WIP = null;
   var updateQueue = [];
   var commitQueue = [];
@@ -343,7 +441,9 @@ var freie = (function (exports) {
       cloneChildren(WIP);
       return;
     }
+    currentFiber = WIP;
     WIP.type.fiber = WIP;
+    resetCursor();
     var children = WIP.type(WIP.props);
     if (isStr(children)) {
       children = createText(children);
@@ -529,6 +629,10 @@ var freie = (function (exports) {
     if (isFn(res)) e[2] = res;
   };
 
+  var getCurrentFiber = function getCurrentFiber() {
+    return currentFiber || null;
+  };
+
   var isFn = function isFn(fn) {
     return typeof fn === 'function';
   };
@@ -537,13 +641,27 @@ var freie = (function (exports) {
     return k != null && j != null ? '.' + i + '.' + k : j != null ? '.' + i + '.' + j : k != null ? '.' + k : '.' + i;
   };
 
-  var App = function App(props) {
+  function App(props) {
+    var _useState = useState(0),
+        _useState2 = slicedToArray(_useState, 2),
+        count = _useState2[0],
+        setCount = _useState2[1];
+
     return h(
       'div',
       null,
-      props.foo
+      count,
+      ' - ',
+      props.foo,
+      h(
+        'button',
+        { onClick: function onClick() {
+            return setCount(count + 1);
+          } },
+        '+'
+      )
     );
-  };
+  }
 
   function begin(target) {
     render(h(App, { foo: 'bar' }), document.getElementById(target));

@@ -61,3 +61,21 @@ window.performance.now =
   function () {
     return new Date().getTime()
   }
+
+if (!Array.prototype.forEach) {
+  Array.prototype.forEach = function (fn, scope) {
+    var i, len
+    for (i = 0, len = this.length; i < len; ++i) {
+      if (i in this) {
+        fn.call(scope, this[i], i, this)
+      }
+    }
+  }
+  Array.isArray = (function (toString) {
+    var $ = toString.call([])
+    return function isArray(object) {
+      return toString.call(object) === $
+    }
+  })({}.toString)
+  SVGElement = function () {}
+}

@@ -6,7 +6,7 @@ function App(props) {
   const [count, setCount] = useState(0)
   return (
     <div>
-      {props.foo}
+      {count} - {props.foo}
       <button onClick={() => setCount(count + 1)}>+</button>
     </div>
   )
