@@ -2,7 +2,7 @@
   "name": "fre-ie",
   "version": "0.0.0",
   "description": "Let us sup at the fire, gentlemen, and tell stories of the Internet Explorer of old",
-  "main": "dist/bundle.js",
+  "main": "polyfill.js",
   "scripts": {
     "rollup": "rollup -c",
     "clean": "rimraf dist && rimraf docs && mkdir docs && mkdir dist",
@@ -14,12 +14,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/StoneCypher/preact_ie7.git"
+    "url": "git+https://github.com/frejs/fre-ie.git"
   },
   "keywords": [
-    "nooooooooooooooooooooo"
+    "fre"
   ],
-  "author": "John Haugeland <stonecypher@gmail.com>",
+  "author": "yisar <1533540012@qq.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/StoneCypher/preact_ie7/issues"

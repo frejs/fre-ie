@@ -1,8 +1,16 @@
 import '../polyfil'
 
-import { h, render } from 'fre'
+import { h, render, useState } from 'fre'
 
-const App = (props) => <div>{props.foo}</div>
+function App(props) {
+  const [count, setCount] = useState(0)
+  return (
+    <div>
+      {props.foo}
+      <button onClick={() => setCount(count + 1)}>+</button>
+    </div>
+  )
+}
 
 function begin(target) {
   render(<App foo='bar' />, document.getElementById(target))
