@@ -20,9 +20,9 @@ import '@fre/ie'
 
 ### 兼容思路
 
-- 1. babel
+- 1. babel 和 rollup
 
-babel 打包不忽略 node_modules，预设一定要有 es3
+webpack最新版本自身不支持ie8，可以使用 rollup 或 webpack2，babel 打包不忽略 node_modules，预设一定要有 es3
 
 - 2. API 兼容
 
