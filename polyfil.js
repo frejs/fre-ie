@@ -62,6 +62,15 @@ window.performance.now =
     return new Date().getTime()
   }
 
+if (!Array.isArray) {
+  Array.isArray = (function (toString) {
+    var $ = toString.call([])
+    return function isArray(object) {
+      return toString.call(object) === $
+    }
+  })({}.toString)
+}
+
 if (!Array.prototype.forEach) {
   Array.prototype.forEach = function (fn, scope) {
     var i, len
@@ -71,11 +80,20 @@ if (!Array.prototype.forEach) {
       }
     }
   }
-  Array.isArray = (function (toString) {
-    var $ = toString.call([])
-    return function isArray(object) {
-      return toString.call(object) === $
+}
+
+if (typeof Function.prototype.bind !== 'function') {
+  Function.prototype.bind = function () {
+    var fn = this
+    var args = arguments
+    return function () {
+      return fn.call.apply(fn, args)
     }
-  })({}.toString)
-  SVGElement = function () {}
+  }
+}
+
+if(!SVGElement){
+    SVGElement = function(){
+      // 暂时不支持 svg
+    }
 }
