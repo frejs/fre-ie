@@ -213,7 +213,7 @@ var freie = (function (exports) {
   }
 
   function createText(vnode) {
-    return { type: 'text', props: { nodeValue: vnode } };
+    return { type: 'text', props: { innerText: vnode } };
   }
 
   function updateElement(dom, oldProps, newProps) {
@@ -242,7 +242,7 @@ var freie = (function (exports) {
   }
 
   function createElement(fiber) {
-    var dom = fiber.type === 'text' ? document.createTextNode(fiber.props.nodeValue) : fiber.tag === SVG ? document.createElementNS('http://www.w3.org/2000/svg', fiber.type) : document.createElement(fiber.type);
+    var dom = fiber.type === 'text' ? document.createTextNode(fiber.props.innerText) : fiber.tag === SVG ? document.createElementNS('http://www.w3.org/2000/svg', fiber.type) : document.createElement(fiber.type);
     updateElement(dom, {}, fiber.props);
     return dom;
   }
