@@ -1,15 +1,17 @@
 {
-  "name": "preact_ie7",
-  "version": "0.1.0",
+  "name": "fre-ie",
+  "version": "0.0.0",
   "description": "Let us sup at the fire, gentlemen, and tell stories of the Internet Explorer of old",
   "main": "dist/bundle.js",
   "scripts": {
     "rollup": "rollup -c",
     "clean": "rimraf dist && rimraf docs && mkdir docs && mkdir dist",
-    "deploy": "copy ./dist/freie.js docs/ & copy ./src/index.html docs/",
-    "build": "npm run clean && npm run rollup",
+    "cf": "copy ./dist/freie.js docs/",
+    "ci": "copy ./src/index.html docs/",
+    "build": "yarn clean && yarn rollup",
     "serve": "servehere -d docs/",
-    "docs": "npm run build && npm run serve",
+    "copy": "yarn cf && yarn ci",
+    "docs": "yarn build && yarn serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

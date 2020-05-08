@@ -487,15 +487,12 @@ var freie = (function (exports) {
       ? '.' + k
       : '.' + i;
 
-  var Widget = function Widget(props) {
-    return h('div', { className: "widget" }, ["I am a widget! My foo prop says ", props.foo, ".", h('br'), h('button', { onclick: function onclick() {
-        return console.log('hi');
-      } }, ["I am a button. Click me for \"hi\" in Console"])]);
+  var App = function App(props) {
+    return h('div', null, ["I am a widget! My foo prop says ", props.foo, "."]);
   };
 
   function begin(target) {
-    var tgt = document.getElementById(target);
-    render(Widget({ foo: "bar" }), tgt);
+    render(App({ foo: "bar" }), document.getElementById(target));
   }
 
   exports.begin = begin;
