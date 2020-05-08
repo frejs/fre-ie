@@ -488,7 +488,7 @@ var freie = (function (exports) {
       : '.' + i;
 
   var App = function App(props) {
-    return h('div', null, ["I am a widget! My foo prop says ", props.foo, "."]);
+    return h('div', null, [props.foo]);
   };
 
   function begin(target) {

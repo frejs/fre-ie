@@ -6,12 +6,10 @@
   "scripts": {
     "rollup": "rollup -c",
     "clean": "rimraf dist && rimraf docs && mkdir docs && mkdir dist",
-    "cf": "copy ./dist/freie.js docs/",
-    "ci": "copy ./src/index.html docs/",
-    "build": "yarn clean && yarn rollup",
+    "deploy": "cross-env copy ./dist/freie.js docs/ && copy ./src/index.html docs/",
+    "build": "yarn  clean && yarn  rollup",
     "serve": "servehere -d docs/",
-    "copy": "yarn cf && yarn ci",
-    "docs": "yarn build && yarn serve",
+    "docs": "yarn  build && yarn deploy && yarn  serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -35,6 +33,7 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-es3": "^1.0.1",
     "babel-preset-react": "^6.24.1",
+    "cross-env": "^7.0.2",
     "rimraf": "^2.6.3",
     "rollup": "^1.1.2",
     "rollup-plugin-babel": "^3.0.7",

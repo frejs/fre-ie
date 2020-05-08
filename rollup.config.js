@@ -24,7 +24,7 @@ export default {
     jsx({ factory: 'h' }),
 
     babel({
-      presets: ['es2015-rollup', 'react', 'es3'],
+      presets: ['es2015-rollup', 'es3'],
       exclude: 'node_modules/**',
     }),
   ],
