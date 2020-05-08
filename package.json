@@ -5,11 +5,8 @@
   "main": "./polyfill.js",
   "scripts": {
     "rollup": "rollup -c",
-    "clean": "rimraf dist && rimraf docs && mkdir docs && mkdir dist",
-    "copy": "cross-env copy ./dist/freie.js docs/",
-    "build": "yarn  rollup",
-    "serve": "servehere -d docs/",
-    "docs": "yarn  build && yarn deploy && yarn  serve",
+    "serve": "servehere -d demo/",
+    "start": "yarn  rollup && yarn serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,16 +26,11 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-env": "^1.7.0",
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-es3": "^1.0.1",
-    "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
-    "cross-env": "^7.0.2",
-    "rimraf": "^2.6.3",
     "rollup": "^1.1.2",
     "rollup-plugin-babel": "^3.0.7",
-    "rollup-plugin-jsx": "^1.0.3",
     "rollup-plugin-node-resolve": "^4.0.0",
     "servehere": "^1.6.0"
   },

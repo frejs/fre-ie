@@ -12,8 +12,4 @@ function App(props) {
   )
 }
 
-function begin(target) {
-  render(<App foo='bar' />, document.getElementById(target))
-}
-
-export { begin }
+render(<App foo='bar' />, document.getElementById('root'))

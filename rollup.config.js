@@ -2,10 +2,10 @@ import babel from 'rollup-plugin-babel'
 import nodeResolve from 'rollup-plugin-node-resolve'
 
 export default {
-  input: 'src/index.js',
+  input: 'demo/index.js',
 
   output: {
-    file: 'dist/freie.js',
+    file: 'demo/freie.js',
     format: 'iife',
     name: 'freie',
     sourcemap: true,
