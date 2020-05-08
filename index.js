@@ -52,11 +52,6 @@ if (!('performance' in window)) {
 }
 var perf = window.performance
 window.performance.now =
-  perf.now ||
-  perf.mozNow ||
-  perf.msNow ||
-  perf.oNow ||
-  perf.webkitNow ||
   Date.now ||
   function () {
     return new Date().getTime()
@@ -116,7 +111,6 @@ if (!Array.prototype.some) {
         return true
       }
     }
-
     return false
   }
 }
