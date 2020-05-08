@@ -8,7 +8,7 @@ export default {
   output: {
     file: 'dist/freie.js',
     format: 'iife',
-    name: 'fieie',
+    name: 'freie',
     sourcemap: true,
   },
 

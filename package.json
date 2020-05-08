@@ -5,11 +5,11 @@
   "main": "dist/bundle.js",
   "scripts": {
     "rollup": "rollup -c",
-    "clean": "rimraf build && rimraf docs && mkdir docs && mkdir build",
-    "deploy": "copy build/pie* docs/ && copy ./src/html/* docs/",
+    "clean": "rimraf dist && rimraf docs && mkdir docs && mkdir dist",
+    "deploy": "copy ./dist/freie.js docs/ & copy ./src/index.html docs/",
     "build": "npm run clean && npm run rollup",
     "serve": "servehere -d docs/",
-    "buildserve": "npm run build && npm run serve",
+    "docs": "npm run build && npm run serve",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
