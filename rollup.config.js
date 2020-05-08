@@ -1,6 +1,5 @@
 import babel from 'rollup-plugin-babel'
 import nodeResolve from 'rollup-plugin-node-resolve'
-import jsx from 'rollup-plugin-jsx'
 
 export default {
   input: 'src/index.js',
@@ -22,7 +21,7 @@ export default {
     }),
 
     babel({
-      presets: ['es2015-rollup', 'es3'],
+      presets: ['es2015-rollup','stage-2', 'es3'],
       plugins:[
         [
           "babel-plugin-transform-react-jsx",
@@ -32,7 +31,6 @@ export default {
           }
         ]
       ],
-      exclude: 'node_modules/**',
     }),
   ],
 }

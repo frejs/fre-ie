@@ -46,3 +46,18 @@ document.createTextNode = function (data) {
 
   return text
 }
+
+if (!('performance' in window)) {
+  window.performance = {}
+}
+var perf = window.performance
+window.performance.now =
+  perf.now ||
+  perf.mozNow ||
+  perf.msNow ||
+  perf.oNow ||
+  perf.webkitNow ||
+  Date.now ||
+  function () {
+    return new Date().getTime()
+  }
