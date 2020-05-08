@@ -21,10 +21,17 @@ export default {
       preferBuiltins: false,
     }),
 
-    jsx({ factory: 'h' }),
-
     babel({
       presets: ['es2015-rollup', 'es3'],
+      plugins:[
+        [
+          "babel-plugin-transform-react-jsx",
+          {
+            "pragma": "h",
+            "pragmaFrag": "Fragment"
+          }
+        ]
+      ],
       exclude: 'node_modules/**',
     }),
   ],

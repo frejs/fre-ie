@@ -6,7 +6,7 @@
   "scripts": {
     "rollup": "rollup -c",
     "clean": "rimraf dist && rimraf docs && mkdir docs && mkdir dist",
-    "deploy": "cross-env copy ./dist/freie.js docs/ && copy ./src/index.html docs/",
+    "copy": "cross-env copy ./dist/freie.js docs/",
     "build": "yarn  clean && yarn  rollup",
     "serve": "servehere -d docs/",
     "docs": "yarn  build && yarn deploy && yarn  serve",
