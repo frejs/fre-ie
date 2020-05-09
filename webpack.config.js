@@ -1,6 +1,5 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const Es3ifyPlugin = require('es3ify-webpack-plugin')
 const IE8 = require('./webpack-ie8-plugin/index')
 
 module.exports = {
@@ -33,7 +32,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
-    new Es3ifyPlugin(),
     new IE8(),
   ],
   devServer: {
