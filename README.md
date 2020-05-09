@@ -11,17 +11,17 @@ yarn start
 ### Use
 
 ```shell
-yarn add @fre/ie
+yarn add webpack-ie8-plugin -D
 ```
 ```js
 const IE8 = require('webpack-ie8-plugin')
 
 plugins: [
     new Es3ifyPlugin(),
-    new IE8() // 此处是 webpack 的 polyfill
+    new IE8() // 配置文件引入 webpack 的 polyfill
 ]
 
-import '@fre/ie' // 业务入口文件引入，fre 的 polyfill
+import 'fre/ie' // 业务入口引入 fre 的 polyfill
 ```
 
 
@@ -62,6 +62,6 @@ webpack 最新版本自身不支持 ie8，所以我们要打补丁，幸运的�
 
 由于 ie8 并不支持 webSocket（webpack 是 eventSource），所以基本上所有的通信插件都用不了
 
-- fre 还不是很完美
+- 没有并入 fre 主库
 
-fre2 重构会适当照顾到兼容，达到一个极佳的平衡
+fre2 重构会适当照顾到兼容，达到一个极佳的平衡，然后会放到主库里维护
