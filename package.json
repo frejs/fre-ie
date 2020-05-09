@@ -4,12 +4,9 @@
   "description": "Let us sup at the fire, gentlemen, and tell stories of the Internet Explorer of old",
   "main": "./polyfill.js",
   "scripts": {
-    "rollup": "rollup -c",
     "serve": "servehere -d dist/",
-    "start": "yarn  rollup && yarn serve",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "dev": "webpack-dev-server"
+    "start": "yarn  build && yarn serve",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -29,15 +26,11 @@
     "@babel/plugin-transform-react-jsx": "^7.9.4",
     "@babel/preset-env": "^7.9.6",
     "babel-loader": "^8.1.0",
-    "babel-preset-es2015-rollup": "^3.0.0",
     "es3ify-webpack-plugin": "^0.1.0",
     "html-webpack-plugin": "^4.3.0",
-    "rollup": "^1.1.2",
-    "rollup-plugin-babel": "^3.0.7",
     "servehere": "^1.6.0",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-cli": "^3.3.11"
   },
   "dependencies": {
     "fre": "^1.13.8"
