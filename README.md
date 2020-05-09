@@ -17,7 +17,7 @@ yarn add webpack-ie8-plugin -D
 const IE8 = require('webpack-ie8-plugin')
 
 plugins: [
-    new Es3ifyPlugin(),
+    ...
     new IE8() // 配置文件引入 webpack 的 polyfill
 ]
 
