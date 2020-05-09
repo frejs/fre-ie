@@ -14,7 +14,7 @@ yarn start
 yarn add @fre/ie
 ```
 ```js
-const IE8 = require('./webpack-ie8-plugin/index')
+const IE8 = require('webpack-ie8-plugin')
 
 plugins: [
     new Es3ifyPlugin(),
