@@ -37,15 +37,15 @@ if (!supportsDescriptors) {
     };
 }
 
-// if (typeof Function.prototype.bind !== 'function') {
-//     Function.prototype.bind = function () {
-//       var fn = this;
-//       var args = arguments;
-//       return function () {
-//         return fn.call.apply(fn, args);
-//       };
-//     };
-// }
+if (typeof Function.prototype.bind !== 'function') {
+    Function.prototype.bind = function () {
+      var fn = this;
+      var args = arguments;
+      return function () {
+        return fn.call.apply(fn, args);
+      };
+    };
+}
 
 // if(!Array.indexOf){
 //     Array.prototype.indexOf=function(searchElement,fromIndex){
@@ -122,8 +122,68 @@ if (!supportsDescriptors) {
 //     };
 // }
 /******/ (function(modules) { // webpackBootstrap
+/******/ 	// install a JSONP callback for chunk loading
+/******/ 	function webpackJsonpCallback(data) {
+/******/ 		var chunkIds = data[0];
+/******/ 		var moreModules = data[1];
+/******/ 		var executeModules = data[2];
+/******/
+/******/ 		// add "moreModules" to the modules object,
+/******/ 		// then flag all "chunkIds" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0, resolves = [];
+/******/ 		for(;i < chunkIds.length; i++) {
+/******/ 			chunkId = chunkIds[i];
+/******/ 			if(Object.prototype.hasOwnProperty.call(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 				resolves.push(installedChunks[chunkId][0]);
+/******/ 			}
+/******/ 			installedChunks[chunkId] = 0;
+/******/ 		}
+/******/ 		for(moduleId in moreModules) {
+/******/ 			if(Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+/******/ 				modules[moduleId] = moreModules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(parentJsonpFunction) parentJsonpFunction(data);
+/******/
+/******/ 		while(resolves.length) {
+/******/ 			resolves.shift()();
+/******/ 		}
+/******/
+/******/ 		// add entry modules from loaded chunk to deferred list
+/******/ 		deferredModules.push.apply(deferredModules, executeModules || []);
+/******/
+/******/ 		// run deferred modules when all chunks ready
+/******/ 		return checkDeferredModules();
+/******/ 	};
+/******/ 	function checkDeferredModules() {
+/******/ 		var result;
+/******/ 		for(var i = 0; i < deferredModules.length; i++) {
+/******/ 			var deferredModule = deferredModules[i];
+/******/ 			var fulfilled = true;
+/******/ 			for(var j = 1; j < deferredModule.length; j++) {
+/******/ 				var depId = deferredModule[j];
+/******/ 				if(installedChunks[depId] !== 0) fulfilled = false;
+/******/ 			}
+/******/ 			if(fulfilled) {
+/******/ 				deferredModules.splice(i--, 1);
+/******/ 				result = __webpack_require__(__webpack_require__.s = deferredModule[0]);
+/******/ 			}
+/******/ 		}
+/******/
+/******/ 		return result;
+/******/ 	}
+/******/
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
+/******/
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// Promise = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		"main": 0
+/******/ 	};
+/******/
+/******/ 	var deferredModules = [];
 /******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
@@ -202,9 +262,18 @@ if (!supportsDescriptors) {
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
 /******/
+/******/ 	var jsonpArray = window["webpackJsonp"] = window["webpackJsonp"] || [];
+/******/ 	var oldJsonpFunction = jsonpArray.push.bind(jsonpArray);
+/******/ 	jsonpArray.push = webpackJsonpCallback;
+/******/ 	jsonpArray = jsonpArray.slice();
+/******/ 	for(var i = 0; i < jsonpArray.length; i++) webpackJsonpCallback(jsonpArray[i]);
+/******/ 	var parentJsonpFunction = oldJsonpFunction;
 /******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.js");
+/******/
+/******/ 	// add entry module to deferred list
+/******/ 	deferredModules.push(["./src/index.js","vendors~main"]);
+/******/ 	// run deferred modules when ready
+/******/ 	return checkDeferredModules();
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -216,7 +285,7 @@ if (!supportsDescriptors) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("!window.addEventListener && function (WindowPrototype, DocumentPrototype, ElementPrototype, addEventListener, removeEventListener, dispatchEvent, registry) {\n  WindowPrototype[addEventListener] = DocumentPrototype[addEventListener] = ElementPrototype[addEventListener] = function (type, listener) {\n    var target = this;\n    registry.unshift([target, type, listener, function (event) {\n      event.currentTarget = target;\n\n      event.preventDefault = function () {\n        event.returnValue = false;\n      };\n\n      event.stopPropagation = function () {\n        event.cancelBubble = true;\n      };\n\n      event.target = event.srcElement || target;\n      listener.call(target, event);\n    }]);\n    this.attachEvent('on' + type, registry[0][3]);\n  };\n\n  WindowPrototype[removeEventListener] = DocumentPrototype[removeEventListener] = ElementPrototype[removeEventListener] = function (type, listener) {\n    for (var index = 0, register; register = registry[index]; ++index) {\n      if (register[0] == this && register[1] == type && register[2] == listener) {\n        return this.detachEvent('on' + type, registry.splice(index, 1)[0][3]);\n      }\n    }\n  };\n\n  WindowPrototype[dispatchEvent] = DocumentPrototype[dispatchEvent] = ElementPrototype[dispatchEvent] = function (eventObject) {\n    return this.fireEvent('on' + eventObject.type, eventObject);\n  };\n}(Window.prototype, HTMLDocument.prototype, Element.prototype, 'addEventListener', 'removeEventListener', 'dispatchEvent', []);\n\ndocument.createTextNode = function (data) {\n  var text = document.createElement('x-text');\n  text.innerText = data;\n  return text;\n};\n\nif (!('performance' in window)) {\n  window.performance = {};\n}\n\nvar perf = window.performance;\n\nwindow.performance.now = Date.now || function () {\n  return new Date().getTime();\n};\n\nif (!Array.isArray) {\n  Array.isArray = function (toString) {\n    var $ = toString.call([]);\n    return function isArray(object) {\n      return toString.call(object) === $;\n    };\n  }({}.toString);\n}\n\nif (!Array.prototype.forEach) {\n  Array.prototype.forEach = function (fn, scope) {\n    var i, len;\n\n    for (i = 0, len = this.length; i < len; ++i) {\n      if (i in this) {\n        fn.call(scope, this[i], i, this);\n      }\n    }\n  };\n}\n\nif (typeof Function.prototype.bind !== 'function') {\n  Function.prototype.bind = function () {\n    var fn = this;\n    var args = arguments;\n    return function () {\n      return fn.call.apply(fn, args);\n    };\n  };\n}\n\nif (!SVGElement) {\n  SVGElement = function SVGElement() {// 暂时不支持 svg\n  };\n}\n\nif (!Array.prototype.some) {\n  Array.prototype.some = function (fun) {\n    if (this === void 0 || this === null) {\n      throw new TypeError();\n    }\n\n    var t = Object(this);\n    var len = t.length >>> 0;\n\n    if (typeof fun !== 'function') {\n      throw new TypeError();\n    }\n\n    var thisArg = arguments.length >= 2 ? arguments[1] : void 0;\n\n    for (var i = 0; i < len; i++) {\n      if (i in t && fun.call(thisArg, t[i], i, t)) {\n        return true;\n      }\n    }\n\n    return false;\n  };\n}\n\n//# sourceURL=webpack:///./polyfill.js?");
+eval("!window.addEventListener && function (WP, DP, EP, a, r, d, rest) {\n  WP[a] = DP[a] = EP[a] = function (type, listener) {\n    var target = this;\n    rest.unshift([target, type, listener, function (event) {\n      event.currentTarget = target;\n\n      event.preventDefault = function () {\n        event.returnValue = false;\n      };\n\n      event.stopPropagation = function () {\n        event.cancelBubble = true;\n      };\n\n      event.target = event.srcElement || target;\n      listener.call(target, event);\n    }]);\n    this.attachEvent('on' + type, rest[0][3]);\n  };\n\n  WP[r] = DP[r] = EP[r] = function (type, listener) {\n    for (var index = 0, register; register = rest[index]; ++index) {\n      if (register[0] == this && register[1] == type && register[2] == listener) {\n        return this.detachEvent('on' + type, rest.splice(index, 1)[0][3]);\n      }\n    }\n  };\n\n  WP[d] = DP[d] = EP[d] = function (eventObject) {\n    return this.fireEvent('on' + eventObject.type, eventObject);\n  };\n}(Window.prototype, HTMLDocument.prototype, Element.prototype, 'a', 'r', 'd', []);\n\nif (!window.performance) {\n  window.performance = {};\n\n  window.performance.now = Date.now || function () {\n    return new Date().getTime();\n  };\n}\n\nif (!Array.isArray) {\n  Array.isArray = function (toString) {\n    var $ = toString.call([]);\n    return function isArray(object) {\n      return toString.call(object) === $;\n    };\n  }({}.toString);\n}\n\nif (!Array.prototype.forEach) {\n  Array.prototype.forEach = function (fn, scope) {\n    var i, len;\n\n    for (i = 0, len = this.length; i < len; ++i) {\n      if (i in this) {\n        fn.call(scope, this[i], i, this);\n      }\n    }\n  };\n}\n\nif (typeof Function.prototype.bind !== 'function') {\n  Function.prototype.bind = function () {\n    var fn = this;\n    var args = arguments;\n    return function () {\n      return fn.call.apply(fn, args);\n    };\n  };\n}\n\nif (!SVGElement) {\n  SVGElement = function SVGElement() {// 暂时不支持 svg\n  };\n}\n\nif (!Array.prototype.some) {\n  Array.prototype.some = function (fun) {\n    if (this === void 0 || this === null) {\n      throw new TypeError();\n    }\n\n    var t = Object(this);\n    var len = t.length >>> 0;\n\n    if (typeof fun !== 'function') {\n      throw new TypeError();\n    }\n\n    var thisArg = arguments.length >= 2 ? arguments[1] : void 0;\n\n    for (var i = 0; i < len; i++) {\n      if (i in t && fun.call(thisArg, t[i], i, t)) {\n        return true;\n      }\n    }\n\n    return false;\n  };\n}\n\nif (!document.createTextNode) {\n  document.createTextNode = function (data) {\n    var text = document.createElement('x-text');\n    text.innerText = data;\n    return text;\n  };\n}\n\n//# sourceURL=webpack:///./polyfill.js?");
 
 /***/ }),
 
@@ -228,7 +297,7 @@ eval("!window.addEventListener && function (WindowPrototype, DocumentPrototype, 
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../polyfill */ \"./polyfill.js\");\n/* harmony import */ var _polyfill__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_polyfill__WEBPACK_IMPORTED_MODULE_0__);\n\n\nvar a = function a() {\n  return console.log(a);\n};\n\na();\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../polyfill */ \"./polyfill.js\");\n/* harmony import */ var _polyfill__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_polyfill__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var fre__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fre */ \"./node_modules/fre/dist/fre.esm.js\");\n\n\n\nfunction App(props) {\n  var _useState = Object(fre__WEBPACK_IMPORTED_MODULE_1__[\"useState\"])(0),\n      count = _useState[0],\n      setCount = _useState[1];\n\n  return Object(fre__WEBPACK_IMPORTED_MODULE_1__[\"h\"])(\"div\", null, count, \" - \", props.foo, Object(fre__WEBPACK_IMPORTED_MODULE_1__[\"h\"])(\"button\", {\n    onClick: function onClick() {\n      return setCount(count + 1);\n    }\n  }, \"+\"));\n}\n\nObject(fre__WEBPACK_IMPORTED_MODULE_1__[\"render\"])(Object(fre__WEBPACK_IMPORTED_MODULE_1__[\"h\"])(App, {\n  foo: \"bar\"\n}), document.getElementById('root'));\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ })
 

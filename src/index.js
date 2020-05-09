@@ -1,5 +1,15 @@
 import '../polyfill'
 
-const a = () => console.log(a)
+import { h, render, useState } from 'fre'
 
-a()
+function App(props) {
+  const [count, setCount] = useState(0)
+  return (
+    <div>
+      {count} - {props.foo}
+      <button onClick={() => setCount(count + 1)}>+</button>
+    </div>
+  )
+}
+
+render(<App foo='bar' />, document.getElementById('root'))

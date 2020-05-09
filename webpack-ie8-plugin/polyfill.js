@@ -37,15 +37,15 @@ if (!supportsDescriptors) {
     };
 }
 
-// if (typeof Function.prototype.bind !== 'function') {
-//     Function.prototype.bind = function () {
-//       var fn = this;
-//       var args = arguments;
-//       return function () {
-//         return fn.call.apply(fn, args);
-//       };
-//     };
-// }
+if (typeof Function.prototype.bind !== 'function') {
+    Function.prototype.bind = function () {
+      var fn = this;
+      var args = arguments;
+      return function () {
+        return fn.call.apply(fn, args);
+      };
+    };
+}
 
 // if(!Array.indexOf){
 //     Array.prototype.indexOf=function(searchElement,fromIndex){

@@ -1,9 +1,9 @@
 !window.addEventListener &&
-  (function (WindowPrototype, DocumentPrototype, ElementPrototype, addEventListener, removeEventListener, dispatchEvent, registry) {
-    WindowPrototype[addEventListener] = DocumentPrototype[addEventListener] = ElementPrototype[addEventListener] = function (type, listener) {
+  (function (WP, DP, EP, a, r, d, rest) {
+    WP[a] = DP[a] = EP[a] = function (type, listener) {
       var target = this
 
-      registry.unshift([
+      rest.unshift([
         target,
         type,
         listener,
@@ -21,41 +21,34 @@
         },
       ])
 
-      this.attachEvent('on' + type, registry[0][3])
+      this.attachEvent('on' + type, rest[0][3])
     }
 
-    WindowPrototype[removeEventListener] = DocumentPrototype[removeEventListener] = ElementPrototype[removeEventListener] = function (
+    WP[r] = DP[r] = EP[r] = function (
       type,
       listener
     ) {
-      for (var index = 0, register; (register = registry[index]); ++index) {
+      for (var index = 0, register; (register = rest[index]); ++index) {
         if (register[0] == this && register[1] == type && register[2] == listener) {
-          return this.detachEvent('on' + type, registry.splice(index, 1)[0][3])
+          return this.detachEvent('on' + type, rest.splice(index, 1)[0][3])
         }
       }
     }
 
-    WindowPrototype[dispatchEvent] = DocumentPrototype[dispatchEvent] = ElementPrototype[dispatchEvent] = function (eventObject) {
+    WP[d] = DP[d] = EP[d] = function (eventObject) {
       return this.fireEvent('on' + eventObject.type, eventObject)
     }
-  })(Window.prototype, HTMLDocument.prototype, Element.prototype, 'addEventListener', 'removeEventListener', 'dispatchEvent', [])
+  })(Window.prototype, HTMLDocument.prototype, Element.prototype, 'a', 'r', 'd', [])
 
-document.createTextNode = function (data) {
-  const text = document.createElement('x-text')
-  text.innerText = data
-
-  return text
-}
-
-if (!('performance' in window)) {
+if (!window.performance) {
   window.performance = {}
-}
-var perf = window.performance
-window.performance.now =
+  window.performance.now =
   Date.now ||
   function () {
     return new Date().getTime()
   }
+}
+
 
 if (!Array.isArray) {
   Array.isArray = (function (toString) {
@@ -115,3 +108,11 @@ if (!Array.prototype.some) {
   }
 }
 
+if (!document.createTextNode) {
+  document.createTextNode = function (data) {
+    const text = document.createElement('x-text')
+    text.innerText = data
+
+    return text
+  }
+}
