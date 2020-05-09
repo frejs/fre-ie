@@ -29,10 +29,13 @@
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-es3": "^1.0.1",
     "babel-preset-stage-2": "^6.24.1",
+    "html-webpack-plugin": "^4.0.0-beta.14",
     "rollup": "^1.1.2",
     "rollup-plugin-babel": "^3.0.7",
     "rollup-plugin-node-resolve": "^4.0.0",
-    "servehere": "^1.6.0"
+    "servehere": "^1.6.0",
+    "webpack": "^5.0.0-beta.16",
+    "webpack-cli": "^4.0.0-beta.8"
   },
   "dependencies": {
     "fre": "^1.13.8"
