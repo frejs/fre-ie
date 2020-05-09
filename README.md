@@ -1,6 +1,6 @@
 # Fre ie
 
-> fre ie 兼容处理（IE8+. Not IE7）
+> fre + webpack4 + babel7 兼容 IE（IE8+. Not IE7）
 
 ### Run
 
