@@ -36,7 +36,8 @@
     "rollup-plugin-babel": "^3.0.7",
     "servehere": "^1.6.0",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
     "fre": "^1.13.8"
