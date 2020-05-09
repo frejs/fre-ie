@@ -28,9 +28,11 @@ fre 代码量非常小，没有用到几个高级 API，所以兼容起来十分
 
 ### 兼容思路
 
-- 1. babel 和 rollup
+- 1. webpack 兼容
 
-webpack 最新版本自身不支持 ie8，可以使用 rollup 或 webpack2，babel 打包不忽略 node_modules，预设一定要有 es3
+webpack 最新版本自身不支持 ie8，主要是 API 兼容
+
+
 
 - 2. API 兼容
 
